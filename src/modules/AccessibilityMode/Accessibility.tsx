@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
-import {View, Text} from "react-native";
+import {View, Image, TouchableOpacity} from "react-native";
 import GestureRecognizer from 'react-native-swipe-gestures'
 import GlucoseManager from "./components/GlucoseManager/GlucoseManager";
 import styles from "./AccessiblityStyles";
 import {swipeDirections} from "../../shared/enums";
+import {Text} from 'react-native-ui-kitten'
+import logo from '../../../assets/images/logo.png';
+import colors from "../../shared/colors";
+import {Ionicons} from "@expo/vector-icons";
 
 const config = {
     velocityThreshold: 0.1,
@@ -16,18 +20,19 @@ interface State {
 }
 
 class Accessibility extends Component<any, State> {
-    static navigationOptions = {
-        header: null
-    };
-
     state = {
         swiped: null
     };
 
+    static navigationOptions = {
+        header: null
+    };
+
+
     onSwipe = (gestureName) => {
-        console.log(gestureName);
         this.setState({swiped: gestureName})
     };
+
 
 
     render() {
@@ -35,21 +40,25 @@ class Accessibility extends Component<any, State> {
 
         const baseView = (
             <>
-                <View>
-                    <Text>Swipe up</Text>
+                <View style={styles.sides}>
+                    <TouchableOpacity style={styles.corner} onPress={() => this.onSwipe(swipeDirections.SWIPE_LEFT)}>
+                        <Ionicons name="ios-arrow-dropleft" size={40} color="black" />
+                        <Text category="h3" style={styles.cornerText}>FOOD</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.corner} onPress={() => this.onSwipe(swipeDirections.SWIPE_RIGHT)}>
+                        <Text category="h3" style={styles.cornerText}>DIARY</Text>
+                        <Ionicons name="ios-arrow-dropright" size={40} color="black" />
+                    </TouchableOpacity>
                 </View>
-                <View style={styles.logo}>
+                <View style={styles.middle}>
                     <View>
-                        <Text>Swipe left</Text>
-                    </View>
-                    <Text>Logo</Text>
-                    <View>
-                        <Text>Swipe right</Text>
+                        <Image source={logo} style={{width: 150, height: 120}}/>
                     </View>
                 </View>
-                <View>
-                    <Text>Swipe up</Text>
-                </View>
+                <TouchableOpacity style={styles.up} onPress={() => this.onSwipe(swipeDirections.SWIPE_UP)}>
+                    <Ionicons name="ios-arrow-dropup" size={40} color="black" />
+                    <Text category="h3" style={styles.cornerText}>DIARY</Text>
+                </TouchableOpacity>
             </>
         );
 
@@ -58,7 +67,7 @@ class Accessibility extends Component<any, State> {
                 case swipeDirections.SWIPE_UP:
                     return <GlucoseManager showBase={() => this.setState({swiped: null})}/>;
                 default:
-                    return null;
+                    return <GlucoseManager showBase={() => this.setState({swiped: null})}/>;
             }
         };
 

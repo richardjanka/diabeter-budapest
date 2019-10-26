@@ -5,11 +5,31 @@ export default StyleSheet.create({
         flex: 1,
         paddingTop: 40
     },
-    logo: {
-        flex: 1,
-        justifyContent: 'space-between',
-        padding: 15,
+    middle: {
+        flex: 2,
+        justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'row'
+    },
+    logo: {
+        flex: 1
+    },
+    sides: {
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginHorizontal: 15
+    },
+    corner: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    cornerText: {
+        marginHorizontal: 15,
+    },
+    up: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 25
     }
 })
