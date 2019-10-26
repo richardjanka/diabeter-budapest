@@ -3,8 +3,10 @@ import TabNavigator from "./TabNavigator";
 import Accessibility from "../modules/AccessibilityMode/Accessibility";
 
 const MainNavigation = createStackNavigator({
-    Accessibility: Accessibility,
-    Main: TabNavigator
+    Main: TabNavigator,
+    Accessibility: Accessibility
+}, {
+    headerMode: "none"
 });
 
 export default MainNavigation;

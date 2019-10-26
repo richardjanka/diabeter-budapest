@@ -5,10 +5,8 @@ import {View} from "react-native";
 
 const Container = ({children}) => {
     return (
-        <Layout>
-            <View style={styles.container}>
-                {children}
-            </View>
+        <Layout style={styles.container}>
+            {children}
         </Layout>
     );
 };
