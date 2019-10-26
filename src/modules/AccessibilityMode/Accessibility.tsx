@@ -3,22 +3,16 @@ import {View, Text} from "react-native";
 import GestureRecognizer from 'react-native-swipe-gestures'
 import GlucoseManager from "./components/GlucoseManager/GlucoseManager";
 import styles from "./AccessiblityStyles";
-
-enum swipeDirections {
-    SWIPE_UP = 'SWIPE_UP',
-    SWIPE_DOWN = 'SWIPE_DOWN',
-    SWIPE_LEFT = 'SWIPE_LEFT',
-    SWIPE_RIGHT = 'SWIPE_RIGHT'
-}
-
+import {swipeDirections} from "../../shared/enums";
 
 const config = {
-    velocityThreshold: 0.3,
-    directionalOffsetThreshold: 80
+    velocityThreshold: 0.1,
+    directionalOffsetThreshold: 200,
+    gestureIsClickThreshold: 2
 };
 
 interface State {
-    backgroundColor: string
+    swiped: swipeDirections | null
 }
 
 class Accessibility extends Component<any, State> {
@@ -27,29 +21,18 @@ class Accessibility extends Component<any, State> {
     };
 
     state = {
-        backgroundColor: '#fff'
+        swiped: null
     };
 
     onSwipe = (gestureName) => {
-        const {SWIPE_UP, SWIPE_DOWN, SWIPE_LEFT, SWIPE_RIGHT} = swipeDirections;
-        switch (gestureName) {
-            case SWIPE_UP:
-                this.setState({backgroundColor: 'red'});
-                break;
-            case SWIPE_DOWN:
-                this.setState({backgroundColor: 'green'});
-                break;
-            case SWIPE_LEFT:
-                this.setState({backgroundColor: 'blue'});
-                break;
-            case SWIPE_RIGHT:
-                this.setState({backgroundColor: 'yellow'});
-                break;
-        }
+        console.log(gestureName);
+        this.setState({swiped: gestureName})
     };
 
 
     render() {
+        const {swiped} = this.state;
+
         const baseView = (
             <>
                 <View>
@@ -70,13 +53,21 @@ class Accessibility extends Component<any, State> {
             </>
         );
 
-        return (
+        const createView = (swiped) => {
+            switch(swiped) {
+                case swipeDirections.SWIPE_UP:
+                    return <GlucoseManager showBase={() => this.setState({swiped: null})}/>;
+                default:
+                    return null;
+            }
+        };
+
+        return swiped ? createView(swiped) : (
             <GestureRecognizer
                 onSwipe={this.onSwipe}
                 config={config}
                 style={{
                     flex: 1,
-                    backgroundColor: this.state.backgroundColor
                 }}
             >
                 <View style={styles.container}>
